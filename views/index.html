@@ -52,7 +52,7 @@
                    src="/music/yizhihenanjing.mp3" hidden = "hidden">
               你的浏览器不支持audio标签
             </audio>
-            <button class="button black tags" onclick="return control()">
+            <button class="button black tags" onclick="return control()" id = "bt_ctrl">
               <span class="glyphicon glyphicon-music"></span> have a try !
             </button>
           </div>
@@ -76,10 +76,13 @@
   <script>
     function control() {
       var player = document.getElementById('player');
+      var bt_ctrl = document.getElementById('bt_ctrl');
       if(player.paused){
         player.play();
+        bt_ctrl.innerHTML='<span class="glyphicon glyphicon-music"></span> pause';
       }else{
         player.pause();
+        bt_ctrl.innerHTML='<span class="glyphicon glyphicon-music"></span> play';
       }
     }
   </script>
