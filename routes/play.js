@@ -14,4 +14,13 @@ router.get('/video', function(req, res, next) {
     file.pipe(res);
 });
 
+router.post('/changResource',function (req, res, next) {
+    var index = Math.floor(Math.random() * 10);
+    if (index % 2 == 1) {
+        res.json({'success': true, 'src': 'horse.mp3'});
+    }else{
+        res.json({'success': true, 'src': 'yizhihenanjing.mp3'});
+    }
+});
+
 module.exports = router;

@@ -45,16 +45,18 @@
             </div>
           </div>
 
-          <div class="inner cover">
-            <h1 class="cover-heading">敬请期待</h1>
-            <p class="lead">Coming soon</p>
+          <div style="width:250px;height:260px;margin:auto;text-align: center;padding: 50px 45px;">
             <audio id="player" controls="controls"loop="loop" preload="auto"
-                   src="/music/yizhihenanjing.mp3" hidden = "hidden">
+                   src="" hidden = "hidden">
               你的浏览器不支持audio标签
             </audio>
-            <button class="button black tags" onclick="return control()" id = "bt_ctrl">
-              <span class="glyphicon glyphicon-music"></span> have a try !
-            </button>
+              <button class="btn btn-primary" onclick="return initPlayer()" id = "btn_start">
+                <span class="glyphicon glyphicon-music"></span> 随便听听~
+              </button>
+
+              <button style="hidden:hidden" class="btn btn-info" onclick="return control()" id = "btn_ctrl">
+                <span class="glyphicon glyphicon-pause"></span>
+              </button>
           </div>
 
           <div class="mastfoot">
@@ -74,15 +76,36 @@
     <script src="/js/jquery.min.js"></script>
     <script src="/js/bootstrap.min.js"></script>
   <script>
+    function initPlayer(){
+      $('#player').attr('src', "/music/yizhihenanjing.mp3");
+      var player = document.getElementById('player');
+      var btn_start = document.getElementById('btn_start');
+      player.play();
+      btn_start.innerHTML='<span class="glyphicon glyphicon-music"></span> next one';
+      document.getElementById("btn_ctrl").style.visibility="inline";
+      $('#btn_start').attr('onclick', "return changeMusic()");
+    }
+
+    function changeMusic() {
+      $.post('/play/changResource',function (data) {
+        if(data.success){
+          var player = document.getElementById('player');
+          player.pause();
+          $('#player').attr('src', "/music/"+data.src);
+          player.play();
+        }
+      })
+    }
+
     function control() {
       var player = document.getElementById('player');
-      var bt_ctrl = document.getElementById('bt_ctrl');
+      var btn_ctrl = document.getElementById('btn_ctrl');
       if(player.paused){
         player.play();
-        bt_ctrl.innerHTML='<span class="glyphicon glyphicon-music"></span> pause';
+        btn_ctrl.innerHTML='<span class="glyphicon glyphicon-pause"></span>';
       }else{
         player.pause();
-        bt_ctrl.innerHTML='<span class="glyphicon glyphicon-music"></span> play';
+        btn_ctrl.innerHTML='<span class="glyphicon glyphicon-play"></span>';
       }
     }
   </script>
