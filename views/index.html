@@ -26,7 +26,10 @@
     <![endif]-->
     </head>
 
-  <body background="/img/guitar.png">
+  <body>
+  <div id="Layer1" style="position:fixed; left:0px; top:0px; width:100%; height:100%;z-index:-1">
+    <img src="/img/bg.jpg" width="100%"/>
+  </div>
 
     <div class="site-wrapper">
 
@@ -54,8 +57,8 @@
                 <span class="glyphicon glyphicon-music"></span> 随便听听~
               </button>
 
-              <button style="hidden:hidden" class="btn btn-info" onclick="return control()" id = "btn_ctrl">
-                <span class="glyphicon glyphicon-pause"></span>
+              <button class="btn btn-info" onclick="return control()" id = "btn_ctrl">
+                <span class="glyphicon glyphicon-play"></span>
               </button>
           </div>
 
@@ -77,12 +80,9 @@
     <script src="/js/bootstrap.min.js"></script>
   <script>
     function initPlayer(){
-      $('#player').attr('src', "/music/yizhihenanjing.mp3");
-      var player = document.getElementById('player');
       var btn_start = document.getElementById('btn_start');
-      player.play();
+      changeMusic()
       btn_start.innerHTML='<span class="glyphicon glyphicon-music"></span> next one';
-      document.getElementById("btn_ctrl").style.visibility="inline";
       $('#btn_start').attr('onclick', "return changeMusic()");
     }
 
@@ -90,23 +90,30 @@
       $.post('/play/changResource',function (data) {
         if(data.success){
           var player = document.getElementById('player');
-          player.pause();
+          pause(player);
           $('#player').attr('src', "/music/"+data.src);
-          player.play();
+          play(player);
         }
       })
     }
 
     function control() {
       var player = document.getElementById('player');
-      var btn_ctrl = document.getElementById('btn_ctrl');
       if(player.paused){
-        player.play();
-        btn_ctrl.innerHTML='<span class="glyphicon glyphicon-pause"></span>';
+        play(player);
       }else{
-        player.pause();
-        btn_ctrl.innerHTML='<span class="glyphicon glyphicon-play"></span>';
+        pause(player);
       }
+    }
+    function play(player) {
+        player.play();
+        var btn_ctrl = document.getElementById('btn_ctrl');
+        btn_ctrl.innerHTML='<span class="glyphicon glyphicon-pause"></span>';
+    }
+    function pause(player) {
+        player.pause();
+        var btn_ctrl = document.getElementById('btn_ctrl');
+        btn_ctrl.innerHTML='<span class="glyphicon glyphicon-play"></span>';
     }
   </script>
   </body>

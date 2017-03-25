@@ -8,7 +8,8 @@ var config = {
         user: 'root',
         database:'disk',
         port: 3306
-    }
+    },
+    audioDir:'./public/music'
 };
 
 module.exports = config;

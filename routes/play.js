@@ -5,6 +5,7 @@
 var express = require('express');
 var fs = require('fs');
 var router = express.Router();
+var config = require('../config/config');
 
 /* GET home page. */
 router.get('/video', function(req, res, next) {
@@ -14,13 +15,24 @@ router.get('/video', function(req, res, next) {
     file.pipe(res);
 });
 
+var index=0;
+
 router.post('/changResource',function (req, res, next) {
-    var index = Math.floor(Math.random() * 10);
-    if (index % 2 == 1) {
-        res.json({'success': true, 'src': 'horse.mp3'});
-    }else{
-        res.json({'success': true, 'src': 'yizhihenanjing.mp3'});
-    }
+    fs.readdir(config.audioDir, function (err, files) {
+        if (err) {
+            console.log(err);
+            return;
+            res.json({'success':false,'msg':err})
+        }
+        var count = files.length;
+        if(index>0){
+            index-=1;
+        }else {
+            index=count-1;
+        }
+        console.log(files[index]);
+        res.json({'success':true,'src':files[index]});
+    });
 });
 
 module.exports = router;
