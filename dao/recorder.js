@@ -4,7 +4,7 @@
 var pool = require('./pool');
 
 var recordIp = function (data) {
-    var sql = 'insert into view_history(ip,page) values(?,?) ON DUPLICATE KEY UPDATE times=tims+1';
+    var sql = 'insert into view_history(ip,page) values(?,?) ON DUPLICATE KEY UPDATE times=times+1';
     pool.execute(sql,data,function(err,rows,fields){
         if (err) {
             console.log(err)
