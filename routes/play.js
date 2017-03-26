@@ -9,6 +9,8 @@ var config = require('../config/config');
 
 /* GET home page. */
 router.get('/video', function(req, res, next) {
+    var real_ip = req.get("X-Real-IP") || req.get("X-Forwarded-For") || req.ip;
+    recorder.recordIp([real_ip,'/video']);
     var filePath = './views/video.html';
     var file = fs.createReadStream(filePath);
     res.writeHead(200);
@@ -16,6 +18,8 @@ router.get('/video', function(req, res, next) {
 });
 
 router.get('/audio', function(req, res, next) {
+    var real_ip = req.get("X-Real-IP") || req.get("X-Forwarded-For") || req.ip;
+    recorder.recordIp([real_ip,'/audio']);
     var filePath = './views/audio.html';
     var file = fs.createReadStream(filePath);
     res.writeHead(200);

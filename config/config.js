@@ -6,7 +6,7 @@ var config = {
     dataSource : {
         host: 'localhost',
         user: 'root',
-        database:'disk',
+        database:'music_fun',
         port: 3306
     },
     audioDir:'./public/music'
