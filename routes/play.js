@@ -6,6 +6,7 @@ var express = require('express');
 var fs = require('fs');
 var router = express.Router();
 var config = require('../config/config');
+var recorder = require('../dao/recorder');
 
 /* GET home page. */
 router.get('/video', function(req, res, next) {
