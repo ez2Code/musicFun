@@ -9,7 +9,7 @@ var config = {
         database:'music_fun',
         port: 3306
     },
-    audioDir:'./public/music'
+    mediaPath:'/data/media'
 };
 
 module.exports = config;
