@@ -27,7 +27,7 @@ app.use(express.static(path.join(__dirname, 'public')));
 app.use(function (req,rs,next) {
   var req_path = req.originalUrl;
   var real_ip = req.get("X-Real-IP") || req.get("X-Forwarded-For") || req.ip;
-  recorder.recordIp([real_ip,req_path]);
+  recorder.recordIp([real_ip,decodeURI(req_path)]);
   next();
 });
 

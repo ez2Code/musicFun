@@ -8,14 +8,15 @@ var router = express.Router();
 var config = require('../config/config');
 
 router.get('/video/*',function (req, res, next) {
-    var req_path = req.originalUrl.substr(9);
+    var req_path = decodeURI(req.originalUrl.substr(9));
+    console.log(decodeURI(req_path));
     var filePath = config.mediaPath + req_path;
     var file = fs.createReadStream(filePath);
     res.writeHead(200);
     file.pipe(res);
 });
 router.get('/audio/*',function (req, res, next) {
-    var req_path = req.originalUrl.substr(9);
+    var req_path = decodeURI(req.originalUrl.substr(9));
     var filePath = config.mediaPath + req_path;
     var file = fs.createReadStream(filePath);
     res.writeHead(200);
