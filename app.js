@@ -4,9 +4,11 @@ var favicon = require('serve-favicon');
 var logger = require('morgan');
 var cookieParser = require('cookie-parser');
 var bodyParser = require('body-parser');
-
+var recorder = require('./dao/recorder');
 var index = require('./routes/index');
 var play = require('./routes/play');
+
+var resource = require('./routes/resource');
 
 var app = express();
 
@@ -21,8 +23,17 @@ app.use(bodyParser.urlencoded({ extended: false }));
 app.use(cookieParser());
 app.use(express.static(path.join(__dirname, 'public')));
 
+// interceptor for log
+app.use(function (req,rs,next) {
+  var req_path = req.originalUrl;
+  var real_ip = req.get("X-Real-IP") || req.get("X-Forwarded-For") || req.ip;
+  recorder.recordIp([real_ip,req_path]);
+  next();
+});
+
 app.use('/', index);
 app.use('/play', play);
+app.use('/resource', resource);
 
 // catch 404 and forward to error handler
 app.use(function(req, res, next) {
