@@ -29,7 +29,7 @@
 
 <body>
 <div id="Layer1" style="position:fixed; left:0px; top:0px; width:100%; height:100%;z-index:-1">
-    <img src="/img/bg.jpg" width="100%"/>
+    <img src="/img/bg-guitar.jpg" width="100%"/>
 </div>
 
 <div class="site-wrapper">
@@ -50,37 +50,9 @@
             </div>
             <div class="col-md-4" style="border: 5px solid white;border-radius:20px;padding:10px 30px;background-color: #4097ce;">
                 <div style="width:150px; height:200px; overflow:scroll; overflow-x:hidden;">
-                    <table>
-
+                    <table id="playList">
                         <tr>
                             <th>播放列表</th>
-                        </tr>
-                        <tr>
-                            <td>January</td>
-                        </tr>
-                        <tr>
-                            <td>January</td>
-                        </tr>
-                        <tr>
-                            <td>January</td>
-                        </tr>
-                        <tr>
-                            <td>January</td>
-                        </tr>
-                        <tr>
-                            <td>January</td>
-                        </tr>
-                        <tr>
-                            <td>January</td>
-                        </tr>
-                        <tr>
-                            <td>January</td>
-                        </tr>
-                        <tr>
-                            <td>January</td>
-                        </tr>
-                        <tr>
-                            <td>January</td>
                         </tr>
                     </table>
                 </div>
@@ -88,8 +60,8 @@
             <div style="text-align:center">
                 <button type="button" class="btn btn-success" onclick="playPause()">播放/暂停</button>
                 <br><br>
-                <video id="player" width="420">
-                    <source src="/resource/video/IMG_2327.mp4" type="video/mp4">
+                <video id="player" width="420" style="background: #9fa6ab">
+                    <source src="" type="video/mp4">
                     您的浏览器不支持 HTML5 video 标签。
                 </video>
             </div>
@@ -104,14 +76,44 @@
 <script src="/js/jquery.min.js"></script>
 <script src="/js/bootstrap.min.js"></script>
 <script>
-    var myVideo=document.getElementById("player");
+
+    $.post('/play/getVideoList',function (data) {
+        if(data.success){
+            var htmlStr = '<tr><th>播放列表</th></tr>';
+            data.list.forEach(function (name) {
+                htmlStr+='<tr><td><button class="btn btn-link" onclick="return change(\''+name+'\')">'+name+'</button></td></tr>';
+            });
+
+            var playList = document.getElementById('playList');
+            playList.innerHTML=htmlStr;
+        }else {
+            alert('获取播放列表失败！');
+        }
+    });
+
+
+    function change(src) {
+        var player = document.getElementById('player');
+        pause(player);
+        $('#player').attr('src', "/resource/video/"+src);
+        play(player);
+    }
 
     function playPause()
     {
-        if (myVideo.paused)
-            myVideo.play();
-        else
-            myVideo.pause();
+        var player=document.getElementById("player");
+        if (player.paused){
+            play(player);
+        }else{
+            pause(player);
+        }
+    }
+
+    function play(player) {
+        player.play();
+    }
+    function pause(player) {
+        player.pause();
     }
 </script>
 </body>

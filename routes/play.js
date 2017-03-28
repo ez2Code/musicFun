@@ -60,17 +60,7 @@ router.post('/getVideoList',function (req, res) {
             res.json({'success':false,'msg':err});
             return;
         }
-        var count = files.length;
-        if(index>0){
-            index-=1;
-        }else {
-            index=count-1;
-        }
-        var list = [];
-        for(var i=0;i<files.length;i++){
-            list.push(files[i]);
-        }
-        res.json({'success':true,'list':list});
+        res.json({'success':true,'list':files});
     });
 });
 
