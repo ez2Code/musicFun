@@ -22,23 +22,23 @@ router.get('/audio', function(req, res, next) {
     file.pipe(res);
 });
 
-var index=0;
+var audio_index=0;
 
-router.post('/changResource',function (req, res, next) {
+router.post('/changAudio',function (req, res, next) {
     fs.readdir(config.mediaPath+'/audio', function (err, files) {
         if (err) {
             console.log(err);
+            res.json({'success':false,'msg':err});
             return;
-            res.json({'success':false,'msg':err})
         }
         var count = files.length;
-        if(index>0){
-            index-=1;
+        if(audio_index>0){
+            audio_index-=1;
         }else {
-            index=count-1;
+            audio_index=count-1;
         }
-        console.log(files[index]);
-        res.json({'success':true,'src':files[index]});
+        console.log(files[audio_index]);
+        res.json({'success':true,'src':files[audio_index]});
     });
 });
 
@@ -46,8 +46,19 @@ router.post('/getAudioList',function (req, res) {
     fs.readdir(config.mediaPath+'/audio', function (err, files) {
         if (err) {
             console.log(err);
+            res.json({'success':false,'msg':err});
             return;
-            res.json({'success':false,'msg':err})
+        }
+        res.json({'success':true,'list':files});
+    });
+});
+
+router.post('/getVideoList',function (req, res) {
+    fs.readdir(config.mediaPath+'/video', function (err, files) {
+        if (err) {
+            console.log(err);
+            res.json({'success':false,'msg':err});
+            return;
         }
         var count = files.length;
         if(index>0){

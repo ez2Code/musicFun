@@ -82,17 +82,17 @@
   <script>
     function initPlayer(){
       var btn_start = document.getElementById('btn_start');
-      changeMusic()
+      changeMusic();
       btn_start.innerHTML='<span class="glyphicon glyphicon-music"></span> next one';
       $('#btn_start').attr('onclick', "return changeMusic()");
     }
 
     function changeMusic() {
-      $.post('/play/changResource',function (data) {
+      $.post('/play/changAudio',function (data) {
         if(data.success){
           var player = document.getElementById('player');
           pause(player);
-          $('#player').attr('src', "/music/"+data.src);
+          $('#player').attr('src', "/resource/audio/"+data.src);
           play(player);
         }
       })
