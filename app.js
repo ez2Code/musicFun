@@ -7,8 +7,6 @@ var recorder = require('./dao/recorder');
 var index = require('./routes/index');
 var play = require('./routes/play');
 
-var resource = require('./routes/resource');
-
 var app = express();
 
 // view engine setup
@@ -30,7 +28,6 @@ app.use(function (req,rs,next) {
 
 app.use('/', index);
 app.use('/play', play);
-app.use('/resource', resource);
 
 // catch 404 and forward to error handler
 app.use(function(req, res, next) {
